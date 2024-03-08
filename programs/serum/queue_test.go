@@ -25,10 +25,10 @@ import (
 	"testing"
 	"time"
 
+	"github.com/17535250630/solana-go"
+	"github.com/17535250630/solana-go/diff"
+	"github.com/17535250630/solana-go/rpc"
 	bin "github.com/gagliardetto/binary"
-	"github.com/gagliardetto/solana-go"
-	"github.com/gagliardetto/solana-go/diff"
-	"github.com/gagliardetto/solana-go/rpc"
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
 )

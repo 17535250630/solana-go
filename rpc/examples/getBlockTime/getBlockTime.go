@@ -18,8 +18,8 @@ import (
 	"context"
 	"time"
 
+	"github.com/17535250630/solana-go/rpc"
 	"github.com/davecgh/go-spew/spew"
-	"github.com/gagliardetto/solana-go/rpc"
 )
 
 func main() {

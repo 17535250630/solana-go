@@ -19,9 +19,8 @@ package tokenregistry
 import (
 	"fmt"
 
+	"github.com/17535250630/solana-go"
 	bin "github.com/gagliardetto/binary"
-
-	"github.com/gagliardetto/solana-go"
 )
 
 const TOKEN_META_SIZE = 229

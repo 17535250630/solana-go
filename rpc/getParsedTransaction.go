@@ -4,8 +4,8 @@ import (
 	"context"
 	"fmt"
 
+	"github.com/17535250630/solana-go"
 	bin "github.com/gagliardetto/binary"
-	"github.com/gagliardetto/solana-go"
 )
 
 type GetParsedTransactionOpts struct {

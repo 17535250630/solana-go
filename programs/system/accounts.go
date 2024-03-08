@@ -17,8 +17,8 @@ package system
 import (
 	"encoding/binary"
 
+	"github.com/17535250630/solana-go"
 	bin "github.com/gagliardetto/binary"
-	"github.com/gagliardetto/solana-go"
 )
 
 type NonceAccount struct {

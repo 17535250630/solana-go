@@ -17,11 +17,11 @@ package main
 import (
 	"context"
 
+	"github.com/17535250630/solana-go"
+	"github.com/17535250630/solana-go/programs/token"
+	"github.com/17535250630/solana-go/rpc"
 	"github.com/davecgh/go-spew/spew"
 	bin "github.com/gagliardetto/binary"
-	"github.com/gagliardetto/solana-go"
-	"github.com/gagliardetto/solana-go/programs/token"
-	"github.com/gagliardetto/solana-go/rpc"
 )
 
 func main() {

@@ -21,10 +21,9 @@ import (
 	"encoding/base64"
 	"fmt"
 
+	"github.com/17535250630/solana-go/text"
 	bin "github.com/gagliardetto/binary"
 	"github.com/gagliardetto/treeout"
-
-	"github.com/gagliardetto/solana-go/text"
 )
 
 type MessageAddressTableLookupSlice []MessageAddressTableLookup

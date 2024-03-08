@@ -21,11 +21,10 @@ import (
 	"os"
 	"strings"
 
-	zapbox "github.com/gagliardetto/solana-go/zap-box"
+	zapbox "github.com/17535250630/solana-go/zap-box"
+	"github.com/streamingfast/logging"
 	"go.uber.org/zap"
 	"go.uber.org/zap/zapcore"
-
-	"github.com/streamingfast/logging"
 )
 
 var zlog *zap.Logger

@@ -21,10 +21,9 @@ import (
 	"fmt"
 	"strings"
 
+	"github.com/17535250630/solana-go/programs/tokenregistry"
+	_ "github.com/17535250630/solana-go/programs/tokenregistry"
 	"github.com/ryanuber/columnize"
-
-	"github.com/gagliardetto/solana-go/programs/tokenregistry"
-	_ "github.com/gagliardetto/solana-go/programs/tokenregistry"
 	"github.com/spf13/cobra"
 )
 

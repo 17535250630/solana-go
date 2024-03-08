@@ -19,9 +19,8 @@ import (
 	"os"
 	"strings"
 
-	"github.com/gagliardetto/solana-go/rpc"
-
-	"github.com/gagliardetto/solana-go/vault"
+	"github.com/17535250630/solana-go/rpc"
+	"github.com/17535250630/solana-go/vault"
 	"github.com/spf13/viper"
 )
 
