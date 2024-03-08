@@ -97,9 +97,6 @@ func (cl *Client) BlockSubscribe(
 		if opts.Encoding != "" {
 			if !solana.IsAnyOfEncodingType(
 				opts.Encoding,
-				// Valid encodings:
-				// solana.EncodingJSON, // TODO
-				// solana.EncodingJSONParsed, // TODO
 				solana.EncodingBase58,
 				solana.EncodingBase64,
 				solana.EncodingBase64Zstd,
@@ -111,6 +108,7 @@ func (cl *Client) BlockSubscribe(
 		if opts.TransactionDetails != "" {
 			obj["transactionDetails"] = opts.TransactionDetails
 		}
+		obj["maxSupportedTransactionVersion"] = 0
 		if opts.Rewards != nil {
 			obj["rewards"] = opts.Rewards
 		}
