@@ -5,6 +5,7 @@ import (
 	"fmt"
 
 	"github.com/17535250630/solana-go"
+	computebudget "github.com/17535250630/solana-go/programs/compute-budget"
 	"github.com/17535250630/solana-go/programs/system"
 	"github.com/17535250630/solana-go/rpc"
 )
@@ -98,6 +99,7 @@ func completePartialProgramInit(
 }
 
 func load(
+	preIns []solana.Instruction,
 	payerPubkey solana.PublicKey,
 	account *rpc.Account,
 	programData []byte,
@@ -114,6 +116,7 @@ func load(
 	err error,
 ) {
 	var instructions []solana.Instruction
+	instructions = append(instructions, preIns...)
 	if account != nil {
 		instructions, balanceNeeded, err = completePartialProgramInit(
 			loaderId,
@@ -161,9 +164,13 @@ func load(
 			},
 			data,
 		)
-		return solana.NewTransactionBuilder().
-			AddInstruction(instruction).
-			SetFeePayer(payerPubkey)
+		cBuilder := solana.NewTransactionBuilder()
+		for _, ins := range preIns {
+			cBuilder = cBuilder.AddInstruction(ins)
+		}
+		cBuilder.AddInstruction(instruction)
+		cBuilder.SetFeePayer(payerPubkey)
+		return cBuilder
 	}
 
 	chunkSize, err := calculateMaxChunkSize(createBuilder)
@@ -183,6 +190,9 @@ func load(
 	}
 
 	finalBuilder = solana.NewTransactionBuilder().SetFeePayer(payerPubkey)
+	for _, pIns := range preIns {
+		finalBuilder.AddInstruction(pIns)
+	}
 	{
 		data := make([]byte, 4)
 		binary.LittleEndian.PutUint32(data[0:], 1)
@@ -198,7 +208,15 @@ func load(
 	return
 }
 
+type JitoConf struct {
+	TipPaymentAccount solana.PublicKey
+	TxGasPrice        uint64
+	TxGasLimit        uint32
+	TipAmount         uint64
+}
+
 func Deploy(
+	jito JitoConf,
 	payerPubkey solana.PublicKey,
 	account *rpc.Account,
 	programData []byte,
@@ -214,6 +232,7 @@ func Deploy(
 	err error,
 ) {
 	return load(
+		getJitoIns(payerPubkey, jito),
 		payerPubkey,
 		account,
 		programData,
@@ -223,4 +242,37 @@ func Deploy(
 		bufferPubkey,
 		allowExcessiveBalance,
 	)
+}
+
+func getJitoIns(payer solana.PublicKey, conf JitoConf) []solana.Instruction {
+	var base []solana.Instruction
+	base = append(base, setComputeUnitPrice(conf.TxGasPrice))
+	base = append(base, setComputeUnitLimit(conf.TxGasLimit))
+	base = append(base, getSetJitoTipAmountInstruction(payer, conf.TipPaymentAccount, conf.TipAmount))
+	return base
+}
+
+func setComputeUnitPrice(price uint64) *computebudget.Instruction {
+	ix, err := computebudget.NewSetComputeUnitPriceInstruction(price).ValidateAndBuild()
+	if err != nil {
+		return nil
+	}
+	return ix
+}
+
+func setComputeUnitLimit(limit uint32) *computebudget.Instruction {
+	ix, err := computebudget.NewSetComputeUnitLimitInstruction(limit).ValidateAndBuild()
+	if err != nil {
+		return nil
+	}
+	return ix
+}
+
+func getSetJitoTipAmountInstruction(payer solana.PublicKey, jitoTipPayment solana.PublicKey, tipAmt uint64) *system.Instruction {
+	ix := system.NewTransferInstruction(
+		tipAmt,
+		payer,
+		jitoTipPayment,
+	).Build()
+	return ix
 }
