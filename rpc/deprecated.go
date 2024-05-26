@@ -199,9 +199,6 @@ func (cl *Client) GetConfirmedTransactionWithOpts(
 		if opts.Encoding != "" {
 			if !solana.IsAnyOfEncodingType(
 				opts.Encoding,
-				// Valid encodings:
-				// solana.EncodingJSON, // TODO
-				// solana.EncodingJSONParsed, // TODO
 				solana.EncodingBase58,
 				solana.EncodingBase64,
 				solana.EncodingBase64Zstd,
@@ -212,6 +209,9 @@ func (cl *Client) GetConfirmedTransactionWithOpts(
 		}
 		if opts.Commitment != "" {
 			obj["commitment"] = opts.Commitment
+		}
+		if opts.MaxSupportedTransactionVersion != nil {
+			obj["maxSupportedTransactionVersion"] = *opts.MaxSupportedTransactionVersion
 		}
 		if len(obj) > 0 {
 			params = append(params, obj)

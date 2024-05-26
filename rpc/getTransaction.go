@@ -48,9 +48,6 @@ func (cl *Client) GetTransaction(
 		if opts.Encoding != "" {
 			if !solana.IsAnyOfEncodingType(
 				opts.Encoding,
-				// Valid encodings:
-				// solana.EncodingJSON, // TODO
-				// solana.EncodingJSONParsed, // TODO
 				solana.EncodingBase58,
 				solana.EncodingBase64,
 				solana.EncodingBase64Zstd,
