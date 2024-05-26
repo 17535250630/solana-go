@@ -210,7 +210,7 @@ func (cl *Client) GetConfirmedTransactionWithOpts(
 		if opts.Commitment != "" {
 			obj["commitment"] = opts.Commitment
 		}
-		obj["maxSupportedTransactionVersion"] = 0
+		obj["maxSupportedTransactionVersion"] = "0"
 		if len(obj) > 0 {
 			params = append(params, obj)
 		}
