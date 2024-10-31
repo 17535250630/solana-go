@@ -19,7 +19,6 @@ package rpc
 
 import (
 	"context"
-	"fmt"
 
 	"github.com/17535250630/solana-go"
 )
@@ -193,28 +192,16 @@ func (cl *Client) GetConfirmedTransactionWithOpts(
 	signature solana.Signature,
 	opts *GetTransactionOpts,
 ) (out *TransactionWithMeta, err error) {
-	params := []interface{}{signature}
-	if opts != nil {
-		obj := M{}
-		if opts.Encoding != "" {
-			if !solana.IsAnyOfEncodingType(
-				opts.Encoding,
-				solana.EncodingBase58,
-				solana.EncodingBase64,
-				solana.EncodingBase64Zstd,
-			) {
-				return nil, fmt.Errorf("provided encoding is not supported: %s", opts.Encoding)
-			}
-			obj["encoding"] = opts.Encoding
-		}
-		if opts.Commitment != "" {
-			obj["commitment"] = opts.Commitment
-		}
-		obj["maxSupportedTransactionVersion"] = 1
-		if len(obj) > 0 {
-			params = append(params, obj)
-		}
+	obj := M{
+		"maxSupportedTransactionVersion": 0,
 	}
+	if opts.Encoding != "" {
+		obj["encoding"] = opts.Encoding
+	}
+	if opts.Commitment != "" {
+		obj["commitment"] = opts.Commitment
+	}
+	params := []interface{}{signature, obj}
 	err = cl.rpcClient.CallForInto(ctx, &out, "getConfirmedTransaction", params)
 	if err != nil {
 		return nil, err
