@@ -192,9 +192,8 @@ func (cl *Client) GetConfirmedTransactionWithOpts(
 	signature solana.Signature,
 	opts *GetTransactionOpts,
 ) (out *TransactionWithMeta, err error) {
-	obj := M{
-		"maxSupportedTransactionVersion": 0,
-	}
+	obj := M{}
+	obj["maxSupportedTransactionVersion"] = Pointer(uint64(0))
 	if opts.Encoding != "" {
 		obj["encoding"] = opts.Encoding
 	}
@@ -210,4 +209,8 @@ func (cl *Client) GetConfirmedTransactionWithOpts(
 		return nil, ErrNotFound
 	}
 	return
+}
+
+func Pointer[T any](x T) *T {
+	return &x
 }
