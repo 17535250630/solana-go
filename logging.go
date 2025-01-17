@@ -25,7 +25,3 @@ import (
 var traceEnabled = logging.IsTraceEnabled("solana-go", "github.com/gagliardetto/solana-go")
 
 var zlog = zap.NewNop()
-
-func init() {
-	logging.Register("github.com/gagliardetto/solana-go", &zlog)
-}
