@@ -27,12 +27,6 @@ import (
 	"go.uber.org/zap/zapcore"
 )
 
-var zlog *zap.Logger
-
-func init() {
-	logging.Register("github.com/gagliardetto/solana-go/cmd/slnc/cmd", &zlog)
-}
-
 func SetupLogger() {
 	commonLogger := createLogger("cli", 1, zap.FatalLevel)
 	logging.Set(commonLogger)
