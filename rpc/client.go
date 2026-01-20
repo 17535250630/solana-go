@@ -87,7 +87,7 @@ func NewWithCustomRPCClient(rpcClient JSONRPCClient) *Client {
 }
 
 var (
-	defaultMaxIdleConnsPerHost = 128
+	defaultMaxIdleConnsPerHost = 256
 	defaultTimeout             = 1 * time.Minute
 	defaultKeepAlive           = 15 * time.Second
 )
