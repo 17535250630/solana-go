@@ -87,9 +87,9 @@ func NewWithCustomRPCClient(rpcClient JSONRPCClient) *Client {
 }
 
 var (
-	defaultMaxIdleConnsPerHost = 9
-	defaultTimeout             = 5 * time.Minute
-	defaultKeepAlive           = 180 * time.Second
+	defaultMaxIdleConnsPerHost = 128
+	defaultTimeout             = 1 * time.Minute
+	defaultKeepAlive           = 15 * time.Second
 )
 
 func newHTTPTransport() *http.Transport {
@@ -103,10 +103,10 @@ func newHTTPTransport() *http.Transport {
 			KeepAlive: defaultKeepAlive,
 			DualStack: true,
 		}).DialContext,
-		ForceAttemptHTTP2: true,
-		// MaxIdleConns:          100,
+		ForceAttemptHTTP2:   true,
+		MaxIdleConns:        128,
 		TLSHandshakeTimeout: 10 * time.Second,
-		// ExpectContinueTimeout: 1 * time.Second,
+		//ExpectContinueTimeout: 10 * time.Second,
 	}
 }
 
